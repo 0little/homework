@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <style>
+    .red {
+      color: red;
+    }
+    .black {
+      background: black;
+    }
+  </style>
+  <title>Todo List</title>
+</head>
+<body>
+<div id="abc" class="red">123</div>
+
+<script src="./nej/src/define.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+  NEJ.define([
+    'base/element',
+    'util/ajax/xdr'
+  ],function(_e, _j){
+    var _node = _e._$get('abc')
+    _e._$addClassName(_node, 'black')
+//    axios.get('http://127.0.0.1:3001').then(function (res) {
+//      console.log(res, 'res')
+//    })
+    _j._$request('http://127.0.0.1:3001', {
+      method: 'get',
+      onerror: function (err) {
+        console.log(err, 'err')
+      },
+      onload: function (data) {
+        console.log(data, 'data')
+      }
+    })
+
+    // TODO
+  });
+</script>
+</body>
+</html>

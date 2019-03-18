@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Todo List</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body id="body">
+<div class="container">
+  <h1>Todo List</h1>
+  <input type="text" id="inputBox">
+  <button id="searchBtn">Search</button>
+  <button id="addBtn">Add</button>
+  <div class="tabs">
+    <span style="cursor: pointer" id="clearBtn">Clear Completed</span>
+    <div class="btns" id="btns">
+      <span class="tabBtn highLight" id="all">All</span>
+      <span class="tabBtn" id="active">Active</span>
+      <span class="tabBtn" id="completed">Completed</span>
+    </div>
+    <span id="countSpan"></span>
+  </div>
+  <ul id="list"></ul>
+</div>
+<script src="./nej/src/define.js?pro=./"></script>
+<script src="index.js"></script>
+</body>
+</html>

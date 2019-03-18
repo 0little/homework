@@ -1,0 +1,130 @@
+.container {
+  width: 650px;
+  margin: 80px auto;
+}
+
+.container h1 {
+  text-align: center;
+  color: #6897BB;
+  font-size: 50px;
+}
+
+.container #inputBox {
+  width: 60%;
+  height: 35px;
+  font-size: 25px;
+}
+.container button {
+  background: #6897BB;
+  border: none;
+  border-radius: 10px;
+  display: inline-block;
+  height: 36px;
+  margin-left: 10px;
+  color: white;
+  font-size: 24px;
+  padding: 2px 15px;
+  cursor: pointer;
+}
+
+.tabs {
+  display: grid;
+  grid-template-columns: 20% 60% 20%;
+  margin-top: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid lightgrey;
+}
+
+.tabs .btns {
+  text-align: center;
+}
+
+.tabBtn {
+  border: 1px #6897BB solid;
+  border-radius: 5px;
+  display: inline-block;
+  height: 20px;
+  color: #6897BB;
+  margin: 0 3px;
+  padding: 2px 5px;
+  cursor: pointer;
+}
+
+.highLight {
+  background: #6897BB; !important;
+  color: white; !important;
+}
+
+#list {
+  list-style: none;
+  margin-top: 10px;
+  padding: 0;
+}
+
+#list li {
+  display: grid;
+  grid-template-columns: 50px 1fr 24px;
+}
+
+.deleteIcon {
+  display: inline-block;
+  height: 20px;
+  width: 20px;
+  text-align: right;
+  font-size: 22px;
+  vertical-align: top;
+  font-weight: bold;
+  color: red;
+  cursor: pointer;
+}
+
+.done {
+  color: grey;
+  text-decoration: line-through;
+}
+
+/*勾选样式*/
+.checkbox {
+  padding: 0;
+  width: 16px;
+  height: 16px;
+  position: relative;
+  display: inline-block;
+}
+
+.hiddenCheck {
+  display: inline-block;
+  position: absolute;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+.trueMark {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 1px solid #6897BB;
+  z-index: -1;
+}
+.hiddenCheck:checked+.trueMark {
+  background: #6897BB;
+}
+.hiddenCheck:checked+.trueMark::after {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  display: inline-block;
+  width: 10px;
+  height: 5px;
+  content: '';
+  border-bottom: 2.5px solid white;
+  border-left: 2.5px solid white;
+  transform: rotate(-45deg);
+  z-index: -1;
+}
