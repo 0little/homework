@@ -1,0 +1,73 @@
+#list {
+  list-style: none;
+  margin-top: 10px;
+  padding: 0;
+}
+
+#list li {
+  display: grid;
+  grid-template-columns: 50px 1fr 24px;
+}
+
+.deleteIcon {
+  display: inline-block;
+  height: 20px;
+  width: 20px;
+  text-align: right;
+  font-size: 22px;
+  vertical-align: top;
+  font-weight: bold;
+  color: red;
+  cursor: pointer;
+}
+
+.done {
+  color: grey;
+  text-decoration: line-through;
+}
+
+/*勾选样式*/
+.checkbox {
+  padding: 0;
+  width: 16px;
+  height: 16px;
+  position: relative;
+  display: inline-block;
+}
+
+.hiddenCheck {
+  display: inline-block;
+  position: absolute;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+.trueMark {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 1px solid #6897BB;
+  z-index: -1;
+}
+.hiddenCheck:checked+.trueMark {
+  background: #6897BB;
+}
+.hiddenCheck:checked+.trueMark::after {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  display: inline-block;
+  width: 10px;
+  height: 5px;
+  content: '';
+  border-bottom: 2.5px solid white;
+  border-left: 2.5px solid white;
+  transform: rotate(-45deg);
+  z-index: -1;
+}

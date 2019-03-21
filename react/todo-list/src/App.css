@@ -1,0 +1,67 @@
+.container {
+  width: 650px;
+  margin: 80px auto;
+}
+
+.container h1 {
+  text-align: center;
+  color: #6897BB;
+  font-size: 50px;
+}
+
+.container .inputBox {
+  width: 60%;
+  height: 35px;
+  font-size: 25px;
+}
+.container button {
+  background: #6897BB;
+  border: none;
+  border-radius: 10px;
+  display: inline-block;
+  height: 36px;
+  margin-left: 10px;
+  color: white;
+  font-size: 24px;
+  padding: 2px 15px;
+  cursor: pointer;
+}
+
+.clearBtn {
+  cursor: pointer;
+}
+
+.tabs {
+  display: grid;
+  grid-template-columns: 20% 60% 20%;
+  margin-top: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid lightgrey;
+}
+
+.tabs .btns {
+  text-align: center;
+}
+
+.tabBtn {
+  border: 1px #6897BB solid;
+  border-radius: 5px;
+  display: inline-block;
+  height: 20px;
+  color: #6897BB;
+  margin: 0 3px;
+  padding: 2px 5px;
+  cursor: pointer;
+}
+
+.highLight {
+  border: 1px #6897BB solid;
+  border-radius: 5px;
+  display: inline-block;
+  height: 20px;
+  margin: 0 3px;
+  padding: 2px 5px;
+  cursor: pointer;
+  background: #6897BB;
+  color: white;
+}
