@@ -4,18 +4,14 @@ NEJ.define([
   'util/ajax/xdr' //ajax
 ],function(_e, _v, _j){
   let url = 'http://127.0.0.1:3001' //node服务器地址
+  let activeBtn = 'all'
   //更新任务列表
   function updateUl(str) {
     let innerStr = '', arr = [], _ul = _e._$get('list')
     switch(str) {
       case '[]':
+      case '':
         innerStr = '没有结果'
-        break;
-      case 'add':
-        innerStr = '添加成功!'
-        break;
-      case 'delete':
-        innerStr = '删除成功!'
         break;
       default:
         //默认情况下传进来的字符串可解析为数组
@@ -58,16 +54,6 @@ NEJ.define([
       }
     })
   }
-  //找到高亮按钮的id
-  function findActive() {
-    let result = ''
-    _e._$getByClassName('btns', 'tabBtn').map(function (item) {
-      if(item.className.indexOf('highLight') >= 0) {
-        result = item.id
-      }
-    })
-    return result
-  }
   //向服务端发送请求,参数分别是用户操作，传给服务端的id，描述，状态，触发操作的元素
   function sendReq(o, i, d, s, e) {
     let p = {
@@ -75,6 +61,11 @@ NEJ.define([
       id: i,
       description: d,
       status: s
+    }
+    if(sessionStorage.getItem(JSON.stringify(p))) {
+      changeBg(activeBtn)
+      updateUl(sessionStorage.getItem(JSON.stringify(p)))
+      return
     }
     _j._$request(url, {
       method: 'post',
@@ -90,24 +81,19 @@ NEJ.define([
         // 若不是，根据情况判断是否需要再进行查询请求
         switch (o) {
           case 'search':
-            changeBg(e.id)
+            changeBg(activeBtn)
+            sessionStorage.setItem(JSON.stringify(p), JSON.stringify(data))
             updateUl(JSON.stringify(data))
             break;
           case 'add':
-            changeBg(e.id)
-            updateUl('add')
+            sessionStorage.clear()
+            sendReq('search', activeBtn, '', '', '')
+            _e._$get('inputBox').value = ''
             break;
           case 'delete':
-            let activeId = findActive()
-            if(activeId=== '') {
-              updateUl('delete')
-            } else {
-              sendReq('search', activeId, '', '', e)
-            }
-            break;
           case 'change':
-            changeBg(e.id)
-            sendReq('search', findActive(), '', '', e)
+            sessionStorage.clear()
+            sendReq('search', activeBtn, _e._$get('inputBox').value, '', '')
             break;
           default:
             break;
@@ -119,28 +105,21 @@ NEJ.define([
   //采用事件委托，规定不同元素的点击事件应得到什么样的响应
   _v._$addEvent('body', 'click', function(_event){
     let _element = _v._$getElement(_event)
-    let inputValue = ''
+    let inputValue =  _e._$get('inputBox').value
     switch (_element.id) {
-      case 'searchBtn':
-        inputValue =  _e._$get('inputBox').value
-        if (inputValue === '') {
-          alert('输入不能为空！')
-        } else {
-          sendReq('search', '', inputValue, '', _element)
-        }
-        break;
       case 'addBtn':
-        inputValue =  _e._$get('inputBox').value
         if (inputValue === '') {
           alert('输入不能为空！')
         } else {
           sendReq('add', '', inputValue, '', _element)
         }
         break;
+      case 'searchBtn':
       case 'all':
       case 'active':
       case 'completed':
-        sendReq('search', _element.id, '', '', _element)
+        if(_element.id !== 'searchBtn') activeBtn = _element.id
+        sendReq('search', activeBtn, inputValue, '', _element)
         break;
       case 'clearBtn':
         sendReq('delete', 'all', '', '', _element)
@@ -158,6 +137,6 @@ NEJ.define([
     }
   },false)
   //刚打开页面时，查询数据库中所有任务
-  sendReq('search', 'all', '', '', _e._$get('all'))
+  sendReq('search', activeBtn, '', '', _e._$get('all'))
 })
 
