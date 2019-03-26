@@ -29,42 +29,40 @@ class App extends Component {
       description: d,
       status: s
     }
-    console.log(p, 'p')
-    axios({
-      method: 'post',
-      url: url,
-      type: 'json',
-      data: JSON.stringify(p)
-    }).then(function (response) {
-      let tmp = response.data
-      switch (o) {
-        case 'search':
-          _this.setState({
-            todoNumbers: tmp.count,
-            listData: JSON.stringify(tmp.data)
-          })
-          break;
-        case 'add':
-          _this.setState({
-            todoNumbers: tmp.count,
-            listData: '添加成功！',
-            activeBtn: ''
-          })
-          break;
-        case 'delete':
-          if(_this.state.activeBtn === '') {
-            _this.setState({listData: '删除成功！'})
-          } else {
+    if(sessionStorage.getItem(JSON.stringify(p))) {
+      _this.setState({
+        listData: sessionStorage.getItem(JSON.stringify(p))
+      })
+    } else {
+      axios({
+        method: 'post',
+        url: url,
+        type: 'json',
+        data: JSON.stringify(p)
+      }).then(function (response) {
+        let tmp = response.data
+        switch (o) {
+          case 'search':
+            _this.setState({
+              todoNumbers: tmp.count,
+              listData: JSON.stringify(tmp.data)
+            })
+            sessionStorage.setItem(JSON.stringify(p), JSON.stringify(tmp.data))
+            break;
+          case 'add':
+            document.getElementById('input').value = ''
+            _this.setState({value: ''})
             _this.sendReq('search', _this.state.activeBtn, '', '')
-          }
-          break;
-        case'change':
-          _this.sendReq('search', _this.state.activeBtn, '', '')
-          break;
-        default:
-          break;
-      }
-    })
+            break;
+          case'change':
+          case 'delete':
+            _this.sendReq('search', _this.state.activeBtn, _this.state.value, '')
+            break;
+          default:
+            break;
+        }
+      })
+    }
   }
 
   handleValueChange (event) {
@@ -72,25 +70,31 @@ class App extends Component {
   }
 
   clearCompleted () {
-    this.sendReq('delete', 'all', '', '')
+    sessionStorage.clear()
+    this.sendReq('delete', 'all', this.state.value, '')
   }
 
   handleSearch () {
-    this.setState({activeBtn: ''})
-    this.sendReq('search', '', this.state.value, '')
+    this.sendReq('search', this.state.activeBtn, this.state.value, '')
   }
 
   handleAdd () {
-    this.sendReq('add', '', this.state.value, '')
+    if(this.state.value === '') {
+      alert("输入描述不能为空！")
+    } else {
+      sessionStorage.clear()
+      this.sendReq('add', this.state.activeBtn, this.state.value, '')
+    }
   }
 
   btnClick (event) {
     let active = event.target.innerHTML
     this.setState({activeBtn: active})
-    this.sendReq('search', active, '', '')
+    this.sendReq('search', active, this.state.value, '')
   }
 
   handleChange(operate, id, s) {
+    sessionStorage.clear()
     this.sendReq(operate, id, '', s)
   }
 
@@ -112,7 +116,7 @@ class App extends Component {
     return (
       <div className="container">
         <h1>Todo List</h1>
-        <input type="text" onChange={this.handleValueChange} className="inputBox"/>
+        <input type="text" onChange={this.handleValueChange} className="inputBox" id="input"/>
         <button onClick={this.handleSearch}>Search</button>
         <button onClick={this.handleAdd}>Add</button>
         <div className="tabs">

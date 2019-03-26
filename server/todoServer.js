@@ -10,8 +10,9 @@ let db = mysql.createConnection({
   database: 'todo',
   multipleStatements: true
 })
-
-//建表
+//连接
+db.connect();
+// 建表
 db.query(
   "CREATE TABLE IF NOT EXISTS list ("
   + "number INT(4) NOT NULL AUTO_INCREMENT, "
@@ -21,9 +22,6 @@ db.query(
   function (err, result) {
     if(err) throw err
   })
-
-//连接
-db.connect();
 
 //开启服务器
 let server = http.createServer(function (req, res) {
@@ -40,16 +38,22 @@ let server = http.createServer(function (req, res) {
       case 'search':
         switch (param.id) {
           case 'all':
-            sql = 'select * from list;'
+            sql = param.description === '' ?
+              'select * from list;' :
+              'select * from list where decp like "%' + param.description + '%";'
             break;
           case 'completed':
-            sql = 'select * from list where status="Y";'
+            sql = param.description === '' ?
+              'select * from list where status="Y";' :
+              'select * from list where decp like "%' + param.description + '%" and status = "Y";'
             break;
           case 'active':
-            sql = 'select * from list where status="N";'
+            sql = param.description === '' ?
+              'select * from list where status="N";' :
+              'select * from list where decp like "%' + param.description + '%" and status = "N";'
             break;
           default:
-            sql = "select * from list where decp like '%" + param.description + "%';"
+            // sql = "select * from list where decp like '%" + param.description + "%';"
             break;
         }
         break;
